@@ -24,7 +24,7 @@ export default function signUp() {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
           // User is signed in, redirect to index page
-          router.push('/dashboard');
+          router.push('/');
         }
       });
     

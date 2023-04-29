@@ -15,7 +15,7 @@ export default function login() {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
           // User is signed in, redirect to index page
-          router.push('/dashboard');
+          router.push('/');
         }
       });
     
@@ -29,7 +29,7 @@ export default function login() {
         .then(({user}) => {
           console.log(user);
         })
-        router.push('/dashboard');
+        router.push('/');
     }
 
   
