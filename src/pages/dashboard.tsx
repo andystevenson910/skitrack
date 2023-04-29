@@ -13,7 +13,7 @@ export default function dashboard() {
     const [userLatitude, setUserLatitude] = useState<Number>();
     const [userLongitude, setUserLongitude] = useState<Number>();
     const [searchItem, setSearchItem] = useState('');
-    const [visitedResorts, setVisitedResorts] = useState<String[]>();
+    const [visitedResorts, setVisitedResorts] = useState<String[]>([]);
     
     
     useEffect(()=>{
@@ -126,8 +126,8 @@ export default function dashboard() {
         <button onClick={e=>addResortChecked(searchItem)}>Add</button>
         {visitedResorts?.map((resort,index) => (
         <h1 key={index}>{resort}</h1>))}
-        {successBool && <p>success</p>}
-        {alreadyThereBool && <p>Fail</p>}
+        {successBool && <p>Added to visited list</p>}
+        {alreadyThereBool && <p>Already visited</p>}
       </div>
     )
   }
