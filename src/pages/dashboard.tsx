@@ -68,8 +68,7 @@ export default function dashboard() {
   }, []);
 
     async function addResort(place:String){
-      
-      if (!visitedResorts.includes(place)){
+      if (!visitedResorts.includes(place) && auth.currentUser){
         setVisitedResorts([place, ...visitedResorts]);
         const userInformation = doc(db, "userInfo", auth.currentUser.uid );
         await updateDoc(userInformation, {
@@ -102,8 +101,8 @@ export default function dashboard() {
       const q = query(resortsref, where("resort_name", "==", value));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-      if (Math.abs(userLatitude - doc.data().lat) < 1111){
-        if (Math.abs(userLongitude - doc.data().lon) < 1111){
+      if (Math.abs(Number(userLatitude) - doc.data().lat) < 1111){
+        if (Math.abs(Number(userLongitude) - doc.data().lon) < 1111){
           addResort(value); 
         }  
       }
@@ -113,10 +112,10 @@ export default function dashboard() {
     }
 
     async function getAllEntries() {
-      const docRef = doc(db, "userInfo", auth.currentUser.uid);
+      if (auth.currentUser) {const docRef = doc(db, "userInfo", auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
       const visitedData: string[] = docSnap.data()?.resorts ?? [];
-      setVisitedResorts(visitedData);
+      setVisitedResorts(visitedData);}
     }
 
     return (
