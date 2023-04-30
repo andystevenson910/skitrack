@@ -4,13 +4,7 @@ import Image from 'next/image';
 import {onAuthStateChanged} from 'firebase/auth'
 import { ref, uploadBytes, getStorage, listAll, getDownloadURL, deleteObject } from "firebase/storage";
 import {auth, storage} from '../../lib/firebaseConfig';
-
-
-
-
-
-
-
+import querystring from 'querystring';
 
 export default function Upload() {
     const router = useRouter();
@@ -41,9 +35,9 @@ export default function Upload() {
     useEffect(() => {
         // Wait for the user to be authenticated
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-          if (user) {
+          if (user && auth.currentUser && id) {
             // User is authenticated, get a list of all files in their "images/{their user id}/" folder
-            const imagesRef = ref(storage, `images/${user.uid}`);
+            const imagesRef = ref(storage, "images/" + auth.currentUser.uid+ '/' +id)
             listAll(imagesRef).then((res) => {
               // Loop through each file and get its download URL and path
               const promises = res.items.map((item) => {
@@ -62,18 +56,22 @@ export default function Upload() {
         });
     
         return unsubscribe;
-      }, []);
+      }, [id]);
 
-    const handleUpload = () => {
-      if (file && auth.currentUser) {
-        const storageRef = ref(storage, 'images/'+auth.currentUser.uid+ `/${file.name}`);
-        uploadBytes(storageRef, file).then(() => {
-          console.log("File uploaded successfully!");
-          successMessage();
-        });
-      }
-    };
-  
+      const handleUpload = () => {
+        if (file && auth.currentUser) {
+          const storageRef = ref(
+            storage,
+            "images/" + auth.currentUser.uid +'/'+ id +`/${file.name}`
+          );
+          const fileUrl = URL.createObjectURL(file);
+          setImageUrls((prevUrls) => [...prevUrls, fileUrl]); // Add the image to the list of URLs to display it on the page
+          uploadBytes(storageRef, file).then(() => {
+            successMessage();
+          });
+        }
+      };
+      
 
     function successMessage() {
         if (!successBool) {
@@ -96,8 +94,19 @@ export default function Upload() {
         {successBool && <p>Added to visited list</p>}
         <div>
       {imageUrls.map((imageUrl, index) => (
-        <Image onClick={e=>{deleteImage(paths[index])}} key={index} src={imageUrl} alt={`Image ${index}`} width={400} height={400}/>
-      ))}
+        <Image
+        onClick={(e) => {
+          deleteImage(paths[index]);
+          e.currentTarget.hidden = true;
+        }}
+        hidden={false}
+        key={index}
+        src={imageUrl}
+        alt={`Image ${index}`}
+        width={400}
+        height={400}
+      />
+              ))}
     </div>
       </>
     );
