@@ -10,10 +10,10 @@ export default function index() {
     const [successBool,setSuccessBool] = useState<boolean>(false);
     const [alreadyThereBool,setAlreadyThereBool] = useState<boolean>(false);
     const router = useRouter();
-    const [userLatitude, setUserLatitude] = useState<Number>();
-    const [userLongitude, setUserLongitude] = useState<Number>();
+    const [userLatitude, setUserLatitude] = useState<number>();
+    const [userLongitude, setUserLongitude] = useState<number>();
     const [searchItem, setSearchItem] = useState('');
-    const [visitedResorts, setVisitedResorts] = useState<String[]>([]);
+    const [visitedResorts, setVisitedResorts] = useState<string[]>([]);
     
     
     useEffect(()=>{
@@ -67,7 +67,7 @@ export default function index() {
     return () => unsubscribe();
   }, []);
 
-    async function addResort(place:String){
+    async function addResort(place:string){
       if (!visitedResorts.includes(place) && auth.currentUser){
         setVisitedResorts([place, ...visitedResorts]);
         const userInformation = doc(db, "userInfo", auth.currentUser.uid );
@@ -95,8 +95,13 @@ export default function index() {
         router.push('/login');
 
     }
+    function gotoresortpage(place:string){
+        router.push('/resorts/'+place);
+    }
 
-    async function addResortChecked(value:String){
+
+    
+    async function addResortChecked(value:string){
       const resortsref = collection(db, "resorts");
       const q = query(resortsref, where("resort_name", "==", value));
       const querySnapshot = await getDocs(q);
@@ -124,7 +129,7 @@ export default function index() {
         <input type="text" value={searchItem} onChange={e => setSearchItem(e.target.value)}></input>
         <button onClick={e=>addResortChecked(searchItem)}>Add</button>
         {visitedResorts?.map((resort,index) => (
-        <h1 key={index}>{resort}</h1>))}
+        <h1 onClick={e=>gotoresortpage(resort)} key={index}>{resort}</h1>))}
         {successBool && <p>Added to visited list</p>}
         {alreadyThereBool && <p>Already visited</p>}
       </div>

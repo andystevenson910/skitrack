@@ -5,6 +5,9 @@ import { initializeApp } from "firebase/app";
 import {getAuth} from "firebase/auth";
 
 import {getFirestore} from "firebase/firestore";
+
+import { getStorage } from "firebase/storage";
+
  
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -31,6 +34,7 @@ const firebaseConfig = {
 
   measurementId: "G-4PZ33NNZ1C"
 
+
 };
 
 
@@ -39,3 +43,10 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth  = getAuth(app);
 export const db = getFirestore(app);
+
+// Initialize Firebase
+
+
+
+// Initialize Cloud Storage and get a reference to the service
+export const storage = getStorage(app);
