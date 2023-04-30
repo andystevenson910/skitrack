@@ -15,7 +15,7 @@ export default function login() {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
           // User is signed in, redirect to index page
-          router.push('/');
+          router.push('/dashboard');
         }
       });
     
@@ -29,7 +29,7 @@ export default function login() {
         .then(({user}) => {
           console.log(user);
         })
-        router.push('/');
+        router.push('/dashboard');
     }
 
   
@@ -40,7 +40,7 @@ export default function login() {
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"/>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
           <div className="login-controls">
-            <button className="secondary" onClick={logIn}>Create Account</button>
+            <button className="loginbutton button" onClick={logIn}>Create Account</button>
           </div>
         </div>
       </div>
