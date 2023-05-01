@@ -35,15 +35,18 @@ export default function signUp() {
 
 
     return (
+      <>
+      <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button><button className='loginbutton' onClick={e=>router.push('/login')}>Log in</button></header>
+      
       <div className="container">
         <div className="login">
           <div>Signup</div>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"/>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
           <div className="login-controls">
-            <button className="secondary" onClick={signUp}>Create Account</button>
+            <button id="fullbutton" className="secondary" onClick={signUp}>Create Account</button>
           </div>
         </div>
-      </div>
+      </div></>
     )
   }

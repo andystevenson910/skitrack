@@ -24,21 +24,25 @@ export default function login() {
     function logIn() {
       signInWithEmailAndPassword(auth, email, password)
         .then(({user}) => {
+          router.push('/dashboard');
         })
-        router.push('/dashboard');
+        
     }
 
   
     return (
+      <>
+      <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button><button className='secondary' onClick={e=>router.push('/signup')}>Sign up</button></header>
+      
       <div className="container">
         <div className="login">
           <div>Login</div>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"/>
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"/>
           <div className="login-controls">
-            <button className="loginbutton button" onClick={logIn}>Create Account</button>
+            <button id="fullbutton" className="loginbutton button" onClick={logIn}>Log in</button>
           </div>
         </div>
-      </div>
+      </div></>
     )
   }

@@ -21,18 +21,18 @@ export default function dashboard() {
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (!user) {
-          router.push('/');
+          router.push('/login');
+        } else {
+          getAllEntries();
         }
       });
+      navigator.geolocation.getCurrentPosition((position) => { 
+        setUserLatitude(position.coords.latitude);
+        setUserLongitude(position.coords.longitude);
+    });
       return unsubscribe;
     }, []);
 
-    useEffect(()=>{
-      navigator.geolocation.getCurrentPosition((position) => { 
-          setUserLatitude(position.coords.latitude);
-          setUserLongitude(position.coords.longitude);
-      });
-  },[])
 
 
   function alreadyThereMessage() {
@@ -78,16 +78,6 @@ export default function dashboard() {
   }, [successBool]);
 
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        return;
-      }
-      getAllEntries();
-    });
-    return () => unsubscribe();
-  }, []);
-
     async function addResort(place:string){
       if (!visitedResorts.includes(place) && auth.currentUser){
         setVisitedResorts([place, ...visitedResorts]);
@@ -104,6 +94,7 @@ export default function dashboard() {
 
     function logout(){
         auth.signOut();
+        router.push('/login')
     }
     function gotoresortpage(place:string){
         router.push('/resorts/'+place);
@@ -137,14 +128,19 @@ export default function dashboard() {
 
     return (
       <div>
-        <header><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
-        <input type="text" value={searchItem} placeholder='Resort Name' onChange={e => setSearchItem(e.target.value)}></input>
-        <button className='button submitbutton' onClick={e=>addResortChecked(searchItem)}>Add</button>
-        {visitedResorts?.map((resort,index) => (
-        <div className='resortDiv' onClick={e=>gotoresortpage(resort)} key={index}><h2>{resort}</h2></div>))}
-        {successBool && <div className='successMessage'><p>Success</p></div>}
-        {alreadyThereBool && <div className='softErrorMessage'><p>Already visited</p></div>}
-        {notInRangeBool && <div className='softErrorMessage'><p>Not in range</p></div>}
+        <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button><div className='searchStuff'><input type="text" value={searchItem} placeholder='Resort Name' onChange={e => setSearchItem(e.target.value)}></input>
+        <button className='button submitbutton' onClick={e=>addResortChecked(searchItem)}>Add</button></div><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
+        
+        <div className="resorts-container">
+  {visitedResorts?.map((resort, index) => (
+    <div className="resortDiv" onClick={e=>gotoresortpage(resort)} key={index}>
+      <p>{resort}</p>
+    </div>
+  ))}
+</div>    
+    {successBool && <div  className='successMessage Alert'><p>Success</p></div>}
+        {alreadyThereBool && <div className='softErrorMessage Alert'><p>Already visited</p></div>}
+        {notInRangeBool && <div className='softErrorMessage Alert'><p>Not in range</p></div>}
       </div>
     )
   }
