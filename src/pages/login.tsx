@@ -14,12 +14,9 @@ export default function login() {
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
-          // User is signed in, redirect to index page
           router.push('/dashboard');
         }
       });
-    
-      // Return a cleanup function to unsubscribe from the listener
       return unsubscribe;
     }, []);
     
@@ -27,7 +24,6 @@ export default function login() {
     function logIn() {
       signInWithEmailAndPassword(auth, email, password)
         .then(({user}) => {
-          console.log(user);
         })
         router.push('/dashboard');
     }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth} from "../lib/firebaseConfig";
 import {doc,getDocs,getDoc, where, query, arrayUnion, updateDoc, collection} from "firebase/firestore";
 import {db} from  "../lib/firebaseConfig";
-import { PassThrough } from 'stream';
+
 
 export default function dashboard() {
 
@@ -17,6 +17,16 @@ export default function dashboard() {
     const [visitedResorts, setVisitedResorts] = useState<string[]>([]);
     const [notInRangeBool, setNotInRangeBool] = useState<boolean>(false);
     
+
+    useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (!user) {
+          router.push('/');
+        }
+      });
+      return unsubscribe;
+    }, []);
+
     useEffect(()=>{
       navigator.geolocation.getCurrentPosition((position) => { 
           setUserLatitude(position.coords.latitude);
@@ -91,15 +101,6 @@ export default function dashboard() {
     }
       
     }
-
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (!user) {
-          router.push('/');
-        }
-      });
-      return unsubscribe;
-    }, []);
 
     function logout(){
         auth.signOut();
