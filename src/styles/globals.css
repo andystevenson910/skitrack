@@ -152,8 +152,9 @@ margin-right:auto;
 .resortDiv {
   cursor: pointer;
   padding-top: 35%;
-  background-color: aqua;
+  background-color: rgb(142, 196, 244);
   padding-bottom: 35%;
+  border-radius: 4px;
   text-align: center;
 }
 
