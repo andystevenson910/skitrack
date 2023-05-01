@@ -138,7 +138,7 @@ export default function dashboard() {
     </div>
   ))}
 </div>    
-    {successBool && <div  className='successMessage Alert'><p>Success</p></div>}
+    {successBool && <div  className='successmessage Alert'><p>Success</p></div>}
         {alreadyThereBool && <div className='softerrormessage Alert'><p>Already visited</p></div>}
         {notInRangeBool && <div className='softerrormessage Alert'><p>Not in range</p></div>}
       </div>
