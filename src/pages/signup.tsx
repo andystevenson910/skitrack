@@ -5,10 +5,24 @@ import { auth } from "../lib/firebaseConfig";
 import { collection, setDoc , doc, getDocs} from "firebase/firestore"; 
 import {db} from '../lib/firebaseConfig';
 
+
 export default function signUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errBool, setErrBool] = useState<boolean>(false);
+    const [errmsg, seterrmsg] =useState<string>('err');
     const router = useRouter();
+
+
+    
+    useEffect(() => {
+      if (errBool === true){
+        setTimeout(() => {
+        setErrBool(false);
+        }, 3000);
+      }
+    }, [errBool]);
+
 
     async function signUp() {
       createUserWithEmailAndPassword(auth, email, password)
@@ -18,17 +32,30 @@ export default function signUp() {
             resorts: []
           });
         })
+        .catch(error => {
+          const errorTitle = error.code.replace("auth/", "");
+          if (errorTitle == 'email-already-in-use'){
+            senderrmsg('This email is already associated with an account');
+          } else if (errorTitle == 'weak-password'){
+            senderrmsg('Password is too weak');
+          }else if (errorTitle == 'invalid-email'){
+            senderrmsg('This email is invalid');
+          } else {
+            senderrmsg('An error occured, see console log for more info: '+errorTitle as string);
+            console.error(error);
+          }
+        });
     }
-
+    function senderrmsg(errstring:string){
+      seterrmsg(errstring);
+      setErrBool(true);
+    }
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
-          // User is signed in, redirect to index page
           router.push('/dashboard');
         }
       });
-    
-      // Return a cleanup function to unsubscribe from the listener
       return unsubscribe;
     }, []);
 
@@ -47,6 +74,7 @@ export default function signUp() {
             <button id="fullbutton" className="secondary" onClick={signUp}>Create Account</button>
           </div>
         </div>
-      </div></>
+      </div>
+      {errBool && <div className="Alert softerrormessage"><p>{errmsg}</p></div>}</>
     )
   }
