@@ -105,7 +105,7 @@ export default function Upload() {
     }
     return (
       <>
-      <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button> <p className="resortname">{id}</p><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
+      <header className="dashHeader"><button onClick={e=>router.push('/dashboard')} className="homebutton">Dashboard</button> <p className="resortname">{id}</p><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
         <br></br>
         
         <div>
