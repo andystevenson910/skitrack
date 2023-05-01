@@ -10,7 +10,19 @@ export default function login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const [errmsg, seterrmsg] =useState<string>('err');
+    const [errBool, setErrBool] = useState<boolean>(false);
 
+    useEffect(() => {
+      if (errBool === true){
+        setTimeout(() => {
+        setErrBool(false);
+        }, 3000);
+      }
+    }, [errBool]);
+
+
+    
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
@@ -19,13 +31,34 @@ export default function login() {
       });
       return unsubscribe;
     }, []);
-    
+
+    function senderrmsg(errstring:string){
+      seterrmsg(errstring);
+      setErrBool(true);
+    }
 
     function logIn() {
       signInWithEmailAndPassword(auth, email, password)
         .then(({user}) => {
           router.push('/dashboard');
         })
+        .catch(error => {
+          const errorTitle = error.code.replace("auth/", "");
+          console.log(errorTitle);
+          if (errorTitle == 'user-not-found'){
+            senderrmsg('Account not found');
+          } else if (errorTitle == 'wrong-password'){
+            senderrmsg('Password is incorrect');
+          } else if (errorTitle == 'missing-password'){
+            senderrmsg('Missing password');
+          }
+          else if (errorTitle == 'invalid-email'){
+            senderrmsg('This email is invalid');
+          } else {
+            senderrmsg('An error occured, see console log for more info: '+errorTitle as string);
+            console.error(error);
+          }
+        });
         
     }
 
@@ -43,6 +76,6 @@ export default function login() {
             <button id="fullbutton" className="loginbutton button" onClick={logIn}>Log in</button>
           </div>
         </div>
-      </div></>
+      </div>{errBool && <div className="Alert softerrormessage"><p>{errmsg}</p></div>}</>
     )
   }

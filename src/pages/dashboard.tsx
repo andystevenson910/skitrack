@@ -130,7 +130,7 @@ export default function dashboard() {
       <div>
         <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button><div className='searchStuff'><input type="text" value={searchItem} placeholder='Resort Name' onChange={e => setSearchItem(e.target.value)}></input>
         <button className='button submitbutton' onClick={e=>addResortChecked(searchItem)}>Add</button></div><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
-        
+        <br></br>
         <div className="resorts-container">
   {visitedResorts?.map((resort, index) => (
     <div className="resortDiv" onClick={e=>gotoresortpage(resort)} key={index}>
@@ -139,8 +139,8 @@ export default function dashboard() {
   ))}
 </div>    
     {successBool && <div  className='successMessage Alert'><p>Success</p></div>}
-        {alreadyThereBool && <div className='softErrorMessage Alert'><p>Already visited</p></div>}
-        {notInRangeBool && <div className='softErrorMessage Alert'><p>Not in range</p></div>}
+        {alreadyThereBool && <div className='softerrormessage Alert'><p>Already visited</p></div>}
+        {notInRangeBool && <div className='softerrormessage Alert'><p>Not in range</p></div>}
       </div>
     )
   }
