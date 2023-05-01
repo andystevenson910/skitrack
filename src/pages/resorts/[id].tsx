@@ -4,7 +4,7 @@ import Image from 'next/image';
 import {onAuthStateChanged} from 'firebase/auth'
 import { ref, uploadBytes, getStorage, listAll, getDownloadURL, deleteObject } from "firebase/storage";
 import {auth, storage} from '../../lib/firebaseConfig';
-import querystring from 'querystring';
+
 
 export default function Upload() {
     const router = useRouter();
@@ -65,9 +65,10 @@ export default function Upload() {
             "images/" + auth.currentUser.uid +'/'+ id +`/${file.name}`
           );
           const fileUrl = URL.createObjectURL(file);
-          setImageUrls((prevUrls) => [...prevUrls, fileUrl]); // Add the image to the list of URLs to display it on the page
+          //setImageUrls((prevUrls) => [...prevUrls, fileUrl]); // Add the image to the list of URLs to display it on the page
           uploadBytes(storageRef, file).then(() => {
             successMessage();
+            router.reload();
           });
         }
       };
@@ -85,29 +86,48 @@ export default function Upload() {
           }, 3000);
         }
       }, [successBool]);
-      
+
+      function logout(){
+        auth.signOut();
+        router.push('/login')
+    }
     return (
       <>
-        <p>{id}</p>
-        <input type="file" onChange={handleChange} />
-        <button onClick={handleUpload}>Upload</button>
-        {successBool && <p>Added to visited list</p>}
+      <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button> <p className="resortname">{id}</p><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
+        
+        
         <div>
       {imageUrls.map((imageUrl, index) => (
-        <Image
-        onClick={(e) => {
-          deleteImage(paths[index]);
-          e.currentTarget.hidden = true;
-        }}
+        <div key={index} className="image-container">
+          
+          <Image
+        
+        className="imgDel"
         hidden={false}
-        key={index}
+
         src={imageUrl}
         alt={`Image ${index}`}
         width={400}
         height={400}
-      />
+        
+      /> 
+      <div onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        (e.currentTarget.parentNode as HTMLElement).setAttribute('hidden', 'true');
+        deleteImage(paths[index]);
+  
+}}
+
+        className="overlay"></div>
+      </div>
+    
+    
+      
               ))}
+
     </div>
+    <div className="uploader">
+    <input className="fileinput" type="file" onChange={handleChange} /> <button className="button submitbutton" onClick={handleUpload}>Upload</button>
+       </div> {successBool && <div className="Alert successmessage"><p>Added to visited list</p></div>}
       </>
     );
   }

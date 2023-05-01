@@ -1,5 +1,13 @@
+import { useRouter } from "next/router";
+
+
+
 export default function index(){
-    return (
+  const router= useRouter();
+    return (<>
+      <header className="dashHeader"><button className="homebutton">Home</button> <div>
+      <button className={'secondary button'} onClick={e=>router.push('/signup')}>Sign Up</button>
+      <button className={'loginbutton button'} onClick={e=>router.push('/login')}>Log In</button></div></header>
           <div>
             <h1>Welcome to Ski Resort Tracker</h1>
             <p>
@@ -22,5 +30,5 @@ export default function index(){
             <p>
               Sign up today and start tracking your ski resort visits!
             </p>
-          </div>)  
+          </div></>)  
 }
