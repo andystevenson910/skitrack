@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../lib/firebaseConfig";
-
+import Header from '../components/Header'
 
 
 
@@ -76,6 +76,8 @@ export default function login() {
             <button id="fullbutton" className="loginbutton button" onClick={logIn}>Log in</button>
           </div>
         </div>
-      </div>{errBool && <div className="Alert softerrormessage"><p>{errmsg}</p></div>}</>
+      </div>{errBool && <div className="Alert softerrormessage"><p>{errmsg}</p></div>}
+      <Header></Header>
+      </>
     )
   }

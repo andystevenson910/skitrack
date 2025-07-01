@@ -1,13 +1,11 @@
 import { useRouter } from "next/router";
-
+import Header from "../components/Header";
 
 
 export default function index(){
   const router= useRouter();
     return (<>
-      <header className="dashHeader"><button className="homebutton">Home</button> <div>
-      <button className={'secondary button'} onClick={e=>router.push('/signup')}>Sign Up</button>
-      <button className={'loginbutton button'} onClick={e=>router.push('/login')}>Log In</button></div></header>
+    <Header />
       <br></br>
           <div>
             <h1>Welcome to Ski Resort Tracker</h1>

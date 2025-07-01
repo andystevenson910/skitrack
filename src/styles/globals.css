@@ -1,5 +1,12 @@
 *{font-family:sans-serif;}
 
+
+/* this is a sloppy fix, for now */
+.searchStuff {
+  display:flex;
+  justify-content: center;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -209,3 +216,12 @@ margin:auto;
   background-color: rgb(206, 32, 32);
   color:white;
 }
+
+
+
+
+
+
+
+
+

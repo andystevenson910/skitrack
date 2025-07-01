@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth} from "../lib/firebaseConfig";
 import {doc,getDocs,getDoc, where, query, arrayUnion, updateDoc, collection} from "firebase/firestore";
 import {db} from  "../lib/firebaseConfig";
+import Header from "../components/Header";
 
 
 export default function dashboard() {
@@ -127,10 +128,14 @@ export default function dashboard() {
     }
 
     return (
+      <>
       <div>
-        <header className="dashHeader"><button onClick={e=>router.push('/')} className="homebutton">Home</button><div className='searchStuff'><input type="text" value={searchItem} placeholder='Resort Name' onChange={e => setSearchItem(e.target.value)}></input>
-        <button className='button submitbutton' onClick={e=>addResortChecked(searchItem)}>Add</button></div><button className={'logoutbutton button'} onClick={logout}>Log Out</button></header>
-        <br></br>
+        <Header />
+        <div className='searchStuff'>
+          <input type="text" value={searchItem} placeholder='Resort Name' onChange={e => setSearchItem(e.target.value)}></input>
+          <button className='button submitbutton' onClick={e=>addResortChecked(searchItem)}>Add</button>
+        </div>
+                <br></br>
         <div className="resorts-container">
   {visitedResorts?.map((resort, index) => (
     <div className="resortDiv" onClick={e=>gotoresortpage(resort)} key={index}>
@@ -141,6 +146,6 @@ export default function dashboard() {
     {successBool && <div  className='successmessage Alert'><p>Success</p></div>}
         {alreadyThereBool && <div className='softerrormessage Alert'><p>Already visited</p></div>}
         {notInRangeBool && <div className='softerrormessage Alert'><p>Not in range</p></div>}
-      </div>
+      </div></>
     )
   }
