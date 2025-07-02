@@ -1,38 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ski Resort Tracker
 
-## Getting Started
+## Overview
+SkiTrack is a full-stack web application, currently hosted at [boardingandskiing.com](https://www.boardingandskiing.com) that enables skiing enthusiasts to document and share their mountain adventures. This production-grade application implements authentication, geolocation verification, and media management to create a seamless experience for tracking ski resort visits across America.
 
-First, run the development server:
+## Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### User Authentication System
+- Secure signup and login with Firebase authentication
+- Protected routes ensuring authenticated access to personal dashboards
+- Form validation with real-time error feedback
+- Session management and automatic redirection
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Geolocation Verification
+- Automatic device location detection using browser APIs
+- Proximity validation before resort registration
+- Location-based verification to prevent false entries
+- Dynamic distance calculations for accurate resort tracking
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Resort Management Dashboard
+- Personalized dashboard showing all visited resorts
+- Visual card layout for intuitive navigation
+- Single-click resort addition with automatic verification
+- Instant notifications for user actions
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Media Gallery System
+- Resort-specific photo galleries
+- Drag-and-drop image uploading
+- Image management with delete functionality
+- Responsive gallery layout optimized for all devices
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Technical Implementation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Frontend Architecture
+- Built with Next.js (React) and TypeScript
+- Component-based architecture with reusable UI elements
+- Client-side routing with Next.js file-based system
+- Responsive design using CSS modules
 
-## Learn More
+### Backend Services
+- Authentication: Firebase Authentication
+- Database: Firestore for real-time data synchronization
+- Storage: Firebase Storage for media management
+- Geolocation: Browser Geolocation API with distance calculations
 
-To learn more about Next.js, take a look at the following resources:
+### Performance Optimization
+- Code splitting for efficient loading
+- Memoized components to prevent unnecessary re-renders
+- Efficient image handling with Next.js optimization
+- Lazy loading for improved initial load times
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## User Experience Highlights
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Dashboard Interface
+1. Intuitive card-based layout for resort visualization
+2. Persistent search and add functionality in header
+3. Visual feedback for user actions
+4. Responsive design across all device sizes
 
-## Deploy on Vercel
+### Resort Page Experience
+- Resort name prominently displayed in navigation
+- Clean gallery view of user-uploaded images
+- Immediate visual feedback after user actions
+- Quick single click delete function
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Security Measures
+- Encrypted authentication flows
+- User-specific data partitioning
+- Protected routes for authenticated content
+- Server-side validation of all user actions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technical Specifications
+
+| Component       | Technologies               |
+|-----------------|----------------------------|
+| Frontend        | Next.js, React, TypeScript |
+| Styling         | CSS Modules                |
+| Authentication  | Firebase Auth              |
+| Database        | Firestore                  |
+| Storage         | Firebase Storage           |
+| Geolocation     | Browser Geolocation API    |
+| Deployment      | Vercel                     |
