@@ -12,10 +12,32 @@
     "@types/node": "18.16.2",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
+    "clsx": "^2.1.1",
     "firebase": "^9.21.0",
-    "next": "13.3.1",
+    "lucide-react": "^0.525.0",
+    "next": "^13.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "tailwind-merge": "^3.3.1",
     "typescript": "5.0.4"
-  }
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "description": "## Overview SkiTrack is a full-stack web application, currently hosted at [boardingandskiing.com](https://www.boardingandskiing.com) that enables skiing enthusiasts to document and share their mountain adventures. This production-grade application implements authentication, geolocation verification, and media management to create a seamless experience for tracking ski resort visits across America.",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andystevenson910/skitrack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andystevenson910/skitrack/issues"
+  },
+  "homepage": "https://github.com/andystevenson910/skitrack#readme"
 }
