@@ -1,28 +1,23 @@
-"use client"
-import { useRouter } from "next/router"
-import { useState, useEffect } from "react"
-import { auth } from "../lib/firebaseConfig"
-import { Button } from "./ui/button"
-import { Mountain, ArrowLeft, LogOut } from "lucide-react"
+"use client";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { auth } from "../lib/firebaseConfig";
+import { Button } from "./ui/button";
+import { Mountain, ArrowLeft, LogOut } from "lucide-react";
+import { useAuth } from "../context/auth-context";
 
 export default function Header() {
-  const router = useRouter()
-  const [userLoggedIn, setUserLoggedIn] = useState(false)
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUserLoggedIn(!!user)
-    })
-    return unsubscribe
-  }, [])
+  const router = useRouter();
+  const { user } = useAuth();
+  const userLoggedIn = !!user;
 
   const logout = () => {
-    auth.signOut()
-    router.push("/login")
-  }
+    auth.signOut();
+    router.push("/login");
+  };
 
   const renderRightButtons = () => {
-    const path = router.pathname
+    const path = router.pathname;
 
     if (userLoggedIn) {
       if (path.startsWith("/resorts")) {
@@ -40,7 +35,7 @@ export default function Header() {
               Log Out
             </Button>
           </>
-        )
+        );
       }
       return (
         <Button
@@ -50,7 +45,7 @@ export default function Header() {
           <LogOut className="h-4 w-4" />
           Log Out
         </Button>
-      )
+      );
     }
 
     if (path === "/signup") {
@@ -58,7 +53,7 @@ export default function Header() {
         <Button onClick={() => router.push("/login")} className="bg-[#007bff] hover:bg-[#0069d9] text-white">
           Log In
         </Button>
-      )
+      );
     }
     return (
       <div className="flex gap-2">
@@ -69,8 +64,8 @@ export default function Header() {
           Log In
         </Button>
       </div>
-    )
-  }
+    );
+  };
 
   const renderLeftButton = () => {
     if (router.pathname === "/" && userLoggedIn) {
@@ -78,7 +73,7 @@ export default function Header() {
         <Button onClick={() => router.push("/dashboard")} variant="ghost">
           Dashboard
         </Button>
-      )
+      );
     }
 
     if (router.pathname.startsWith("/resorts")) {
@@ -87,15 +82,15 @@ export default function Header() {
           <ArrowLeft className="h-4 w-4" />
           Dashboard
         </Button>
-      )
+      );
     }
     return (
       <Button onClick={() => router.push("/")} variant="ghost" className="flex items-center gap-2">
         <ArrowLeft className="h-4 w-4" />
         Home
       </Button>
-    )
-  }
+    );
+  };
 
   return (
     <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
@@ -108,5 +103,5 @@ export default function Header() {
         <div className="flex items-center gap-4">{renderRightButtons()}</div>
       </div>
     </header>
-  )
+  );
 }

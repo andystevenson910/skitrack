@@ -1,72 +1,68 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../lib/firebaseConfig"
-import { setDoc, doc } from "firebase/firestore"
-import { db } from "../lib/firebaseConfig"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Alert, AlertDescription } from "../components/ui/alert"
-import { Mountain, ArrowLeft } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../lib/firebaseConfig";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Mountain, ArrowLeft } from "lucide-react";
+import { useAuth } from "../context/auth-context";
 
 export default function SignUp() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [errBool, setErrBool] = useState<boolean>(false)
-  const [errmsg, seterrmsg] = useState<string>("err")
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errBool, setErrBool] = useState<boolean>(false);
+  const [errmsg, seterrmsg] = useState<string>("err");
+  const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (errBool === true) {
-      setTimeout(() => {
-        setErrBool(false)
-      }, 3000)
+    if (errBool) {
+      setTimeout(() => setErrBool(false), 3000);
     }
-  }, [errBool])
+  }, [errBool]);
 
   async function signUp() {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async ({ user }) => {
-        signInWithEmailAndPassword(auth, email, password)
-        const docRef = await setDoc(doc(db, "userInfo", user.uid), {
+        signInWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "userInfo", user.uid), {
           resorts: [],
-        })
+        });
       })
       .catch((error) => {
-        const errorTitle = error.code.replace("auth/", "")
+        const errorTitle = error.code.replace("auth/", "");
         if (errorTitle == "email-already-in-use") {
-          senderrmsg("This email is already associated with an account")
+          senderrmsg("This email is already associated with an account");
         } else if (errorTitle == "weak-password") {
-          senderrmsg("Password is too weak")
+          senderrmsg("Password is too weak");
         } else if (errorTitle == "invalid-email") {
-          senderrmsg("This email is invalid")
+          senderrmsg("This email is invalid");
         } else {
-          senderrmsg(("An error occured, see console log for more info: " + errorTitle) as string)
-          console.error(error)
+          senderrmsg(("An error occured, see console log for more info: " + errorTitle) as string);
+          console.error(error);
         }
-      })
+      });
   }
 
   function senderrmsg(errstring: string) {
-    seterrmsg(errstring)
-    setErrBool(true)
+    seterrmsg(errstring);
+    setErrBool(true);
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        router.push("/dashboard")
-      }
-    })
-    return unsubscribe
-  }, [])
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8ec4f4]/10 to-[#8ec4f4]/20">
-      {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Button variant="ghost" onClick={() => router.push("/")} className="flex items-center gap-2">
@@ -83,7 +79,6 @@ export default function SignUp() {
         </div>
       </header>
 
-      {/* Signup Form */}
       <div className="container mx-auto px-4 py-16 flex justify-center">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
@@ -127,5 +122,5 @@ export default function SignUp() {
         </div>
       )}
     </div>
-  )
+  );
 }

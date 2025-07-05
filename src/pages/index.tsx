@@ -1,28 +1,19 @@
-"use client"
+"use client";
 
-
-import { useRouter } from "next/router"
-import { useState, useEffect } from "react"
-import { auth } from "../lib/firebaseConfig"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Badge } from "../components/ui/badge"
-import { Mountain, MapPin, Camera } from "lucide-react"
+import { useRouter } from "next/router";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { Mountain, MapPin, Camera } from "lucide-react";
+import { useAuth } from "../context/auth-context";
 
 export default function Index() {
-  const router = useRouter()
-  const [userLoggedIn, setUserLoggedIn] = useState(false)
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUserLoggedIn(!!user)
-    })
-    return unsubscribe
-  }, [])
+  const router = useRouter();
+  const { user } = useAuth();
+  const userLoggedIn = !!user;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8ec4f4]/10 to-[#8ec4f4]/20">
-      {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -48,7 +39,6 @@ export default function Index() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-4xl mx-auto">
           <Badge variant="secondary" className="mb-4">
@@ -70,7 +60,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Features</h2>
@@ -124,7 +113,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* How It Works Section */}
       <section className="bg-white py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -195,7 +183,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -206,5 +193,5 @@ export default function Index() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
