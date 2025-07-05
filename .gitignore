@@ -4,7 +4,7 @@
 *.env
 *.env.local
 *.env*.local
-
+env.local
 # Dependencies
 node_modules/
 .pnp
@@ -45,3 +45,4 @@ dist/
 
 # Cache
 .cache/
+
