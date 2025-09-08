@@ -53,7 +53,7 @@ export default function Index() {
             <Button size="lg" onClick={() => router.push("/signup")} className="bg-[#8ec4f4] hover:bg-[#7cacd5]">
               Get Started
             </Button>
-            <Button size="lg" variant="outline" onClick={() => router.push("/login")}>
+            <Button size="lg" variant="outline" onClick={() => router.push("/login")} className="bg-[#006E50]">
               Sign In
             </Button>
           </div>
@@ -173,7 +173,7 @@ export default function Index() {
               <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-8 text-center">
                 <Mountain className="h-24 w-24 text-[#8ec4f4] mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to Start?</h3>
-                <p className="text-gray-600 mb-6">Join thousands of skiers tracking their adventures</p>
+                <p className="text-gray-600 mb-6">Join other skiers tracking their adventures</p>
                 <Button onClick={() => router.push("/signup")} className="bg-[#8ec4f4] hover:bg-[#7cacd5]">
                   Sign Up Today
                 </Button>
